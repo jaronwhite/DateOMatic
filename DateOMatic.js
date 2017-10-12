@@ -4,7 +4,7 @@
  */
 
 (function dateOMatic() {
-    Date.prototype.getQuarter = function () {
+    Date.prototype.getQuarter = function() {
         let m = this.getMonth();
         if (m < 3) {
             return 0;
@@ -14,9 +14,9 @@
             return 2;
         }
         return 3;
-    }
+    };
 
-    Date.prototype.format = function (format) {
+    Date.prototype.format = function(format) {
         let year = this.getFullYear();
         let quarter = this.getQuarter();
         let month = this.getMonth();
@@ -83,9 +83,7 @@
         }
 
         /*format q*/
-        function formatQuarter(format, q) {
-
-        }
+        function formatQuarter(format, q) {}
 
         /*format M */
         function formatMonth(format, month) {
@@ -136,10 +134,9 @@
         /* reuse for day, minute, second */
         function formatDay(format, day) {
             let count = format.split("").length;
-            if (count == 2) {
+            if (count === 2) {
                 return addLeadingZero(day);
             }
-            // console.log(format);
             return day;
         }
 
@@ -189,25 +186,29 @@
             return hour;
         }
 
-        function strParse() {
+        function formatMeridiem(format, hour) {
+            let meridiem;
+            hour < 12 || hour === 24 ? (meridiem = "a") : (meridiem = "p");
+            if (format.length > 1) meridiem += "m";
+            if (format === format.toUpperCase()) meridiem = meridiem.toUpperCase();
+            return meridiem;
+        }
+
+        function strParse(format) {
             let charSplit = format.split("");
-            let prevChar = "";
             let prevFormat = "";
-            let curPosition = 0;
             let rstr = "";
             for (let i in charSplit) {
+                i = parseInt(i);
                 let curChar = charSplit[i];
-                if (curChar !== prevChar) {
-                    rstr += datePart(prevChar, prevFormat);
-                    prevFormat = "";
-                    curPosition += 1;
-                }
-                prevFormat += curChar;
+                let type = charSplit[i - 1] || curChar;
+                let triggerDatePart = charSplit[i + 1] !== curChar;
 
-                if (i == charSplit.length - 1) {
-                    rstr += datePart(prevChar, prevFormat);
+                prevFormat += curChar;
+                if (triggerDatePart) {
+                    rstr += datePart(curChar, prevFormat);
+                    prevFormat = "";
                 }
-                prevChar = curChar;
             }
             return rstr;
         }
@@ -219,7 +220,6 @@
             if (p.test(type)) {
                 specialChar = type;
             }
-            // console.log(type);
 
             switch (type) {
                 case "y":
@@ -247,6 +247,10 @@
                 case "s":
                     formatted = formatDay(format, second);
                     break;
+                case "a":
+                case "A":
+                    formatted = formatMeridiem(format, hour);
+                    break;
                 case specialChar:
                     formatted = type;
                     break;
@@ -256,6 +260,5 @@
         }
 
         return strParse(format);
-    }
-
+    };
 })();
