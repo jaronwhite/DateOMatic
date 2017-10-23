@@ -216,7 +216,7 @@
         function datePart(type, format) {
             let formatted = "";
             let specialChar = "";
-            let p = new RegExp("[ -/:]");
+            let p = new RegExp("[ -/:@]");
             if (p.test(type)) {
                 specialChar = type;
             }
