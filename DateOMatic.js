@@ -528,7 +528,7 @@
             (hour === 0) ? val = meridiem : val = setHour();
             function setHour() {
                 let v;
-                (meridiem === "P") ? v = hour - 12 : v = hour;
+                (meridiem === "P") ? v = hour + 12 : v = hour;
                 return v;
             }
 
