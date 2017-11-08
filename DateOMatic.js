@@ -6,7 +6,6 @@
  * @author Jaron White
  * @version 2.0.0
  */
-//TODO: Build timezone logic.
 
 (function dateOMatic() {
     const longMonth = [
@@ -350,7 +349,7 @@
      * @param format
      * @returns {Date}
      */
-    //TODO: Build logic for parsing out single digit dateParts based on special character separation.
+
     String.prototype.toDate = function (format) {
         let dateStr = this;
 
