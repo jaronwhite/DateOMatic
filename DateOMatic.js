@@ -207,7 +207,6 @@
     }
 
     function parseFormatString(format) {
-        let parsedArray = [];
         let charSplit = format.split("");
         let formatPiece = "";
         let position = 0;
@@ -347,7 +346,7 @@
     /**
      * Converts a String object with specified format into Date object.
      * Currently, single digit formats break functionality because of complications with interpretation. i.e the String
-     * "119" could mean either January 19 or November 9. 
+     * "119" could mean either January 19 or November 9.
      * @param format
      * @returns {Date}
      */
@@ -457,7 +456,7 @@
 
             function loopShortMonth(dateStr) {
                 for (let i in shortMonth) {
-                    if (dateStr.substr(0, 3) == shortMonth[i]) {
+                    if (dateStr.substr(0, 3) === shortMonth[i]) {
                         return i;
                     }
                 }
@@ -469,11 +468,10 @@
 
         function stripWeekDay(format) {
             let len = 3;
-            let weekDay = 0;
 
-            if (format.length == 2) {
+            if (format.length === 2) {
                 for (let i in shortWeekDay) {
-                    if (dateStr.substr(0, 3) == shortWeekDay[i]) {
+                    if (dateStr.substr(0, 3) === shortWeekDay[i]) {
                         len = longWeekDay[i].length;
                     }
                 }
@@ -492,7 +490,9 @@
         /**
          * Strips 1 or 2 digit hour from dateStr in 24 or 12 hour format. Checks to see if meridiem
          * has been processed and assumes meridiem only exists if value is in 12 hour format.
-         * @param format
+         *
+         * @param format - format string of hour
+         * @param doh - date object hour
          * @returns {string} hour in 24 hour format.
          */
         function stripHour(format, doh) {
@@ -516,8 +516,9 @@
          * assumes a 12 hour hour format will not contain a 0 value and a 24 hour format will not
          * contain a meridiem.
          *
-         * @param format
-         * @returns {string} hour (in 24 hour format) or meridiem if hour has not yet been processed.
+         * @param format - format string of meridiem
+         * @param doh - date object hour
+         * @returns {*} hour or meridiem
          */
         function stripMeridiem(format, doh) {
             let len = format.split("").length;
@@ -583,7 +584,7 @@
         let formatted = "";
 
         for (let i in parsedFormat) {
-            if (parsedFormat[i].pos != i) {
+            if (parsedFormat[i].pos !== i) {
                 break;
             }
             switch (parsedFormat[i].type) {
